@@ -1,31 +1,21 @@
-"""Earned pride one-liner: gate, export, verdict (round 4 build)."""
+"""Earned pride one-liner herald."""
 import json
 import os
-import pathlib
+from pathlib import Path
 
-THRESH = {"lo": 1, "hi": 240}
-STATION = "prd4-pride-r4"
-
-entry_path = pathlib.Path(__file__).resolve().parent / "entry.txt"
-
-
-def gate_ok(n):
-    lo = THRESH["lo"]
-    hi = THRESH["hi"]
-    return lo <= n <= hi
-
-
-def deliver():
-    raw = entry_path.read_text(encoding="utf-8").strip()
-    n = len(raw)
-    if gate_ok(n):
-        outdir = pathlib.Path(os.environ.get("MAKEFUN_OUTPUT_DIR", "out"))
-        outdir.mkdir(parents=True, exist_ok=True)
-        (outdir / "entry.txt").write_text(raw + "\n", encoding="utf-8", newline="\n")
-        msg = json.dumps({"station": STATION, "len": n, "verdict": "pass", "thresh": THRESH})
-    else:
-        msg = json.dumps({"station": STATION, "len": n, "verdict": "fail"})
-    print(msg)
-
-
-deliver()
+crown = 240
+MEDAL = "quiet-earned"
+line = (Path(__file__).resolve().parent / "entry.txt").read_bytes().decode("utf-8").strip()
+grade = len(line)
+match grade:
+    case 0:
+        pride = "empty"
+    case g if g > crown:
+        pride = "overflowing"
+    case _:
+        pride = "earned"
+if pride == "earned":
+    stage = Path(os.environ.get("MAKEFUN_OUTPUT_DIR") or "out")
+    stage.mkdir(parents=True, exist_ok=True)
+    (stage / "entry.txt").write_bytes(line.encode("utf-8"))
+print(json.dumps({"pride": pride, "count": grade}))
