@@ -6,7 +6,7 @@ import pathlib
 THRESH = {"lo": 1, "hi": 240}
 STATION = "prd4-pride-r4"
 
-entry_path = pathlib.Path("entry.txt")
+entry_path = pathlib.Path(__file__).resolve().parent / "entry.txt"
 
 
 def gate_ok(n):
