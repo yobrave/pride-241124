@@ -1,0 +1,1 @@
+At 2 a.m. the intern's migration ran clean on production — twelve tables she rewrote by hand after the ORM gave up — and she just said 'checkpoint saved' and went to bed.
